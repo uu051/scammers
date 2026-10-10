@@ -211,6 +211,7 @@
       text-decoration: none;
       font-weight: 600;
       font-size: .95rem;
+      cursor: pointer;
     }
 
     .entry a:hover {
@@ -280,15 +281,148 @@
       color: #ffffff;
     }
 
-    .resource a {
+    .resource-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 9px 16px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       color: var(--accent-link);
-      overflow-wrap: anywhere;
-      font-size: .9rem;
-      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
     }
 
-    .resource a:hover {
-      text-decoration: underline;
+    .resource-btn:hover {
+      background: var(--surface-hover);
+      border-color: #2d3440;
+      color: #ffffff;
+    }
+
+    /* Модальное окно */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      place-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: grid;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-body {
+      overflow-y: auto;
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding-right: 8px;
+      margin-bottom: 16px;
+      white-space: pre-line;
+    }
+
+    .modal-body h3 {
+      margin: 12px 0 4px;
+      font-size: .95rem;
+      color: var(--text);
+    }
+
+    .modal-body h3:first-child {
+      margin-top: 0;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-agree-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .85rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .modal-agree-label input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--status-active);
+      cursor: pointer;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-secondary {
+      background: var(--surface-soft);
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+
+    .btn-primary {
+      background: var(--status-active-bg);
+      border-color: var(--status-active-border);
+      color: var(--status-active);
+      pointer-events: none;
+      opacity: 0.5;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary.enabled {
+      pointer-events: auto;
+      opacity: 1;
+      background: var(--status-active);
       color: #ffffff;
     }
 
@@ -429,6 +563,54 @@
           </div>
         </section>
 
+        <!-- Сайты -->
+        <section class="card">
+          <div class="card-heading">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+            <h2>Сайты</h2>
+            <span class="count">1 запись</span>
+          </div>
+          <div class="entries">
+            <div class="entry">
+              <div class="entry-main">
+                <a href="https://prem.onl/ru" target="_blank" rel="noopener noreferrer">prem.onl/ru</a>
+                <svg class="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"></path></svg>
+              </div>
+              <span class="status-tag active"><span class="status-dot"></span>Актуально</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Боты магазинов по продаже звёзд -->
+        <section class="card">
+          <div class="card-heading">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            </div>
+            <h2>Боты магазинов по продаже звёзд</h2>
+            <span class="count">2 записи</span>
+          </div>
+          <div class="entries">
+            <div class="entry">
+              <div class="entry-main">
+                <a href="https://t.me/TeodorStarsbot" target="_blank" rel="noopener noreferrer" data-warning="Этот магазин по продаже звёзд замечен в мошеннических схемах, или принимал участие в обмане других людей.">@TeodorStarsbot</a>
+                <svg class="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"></path></svg>
+              </div>
+              <span class="status-tag active"><span class="status-dot"></span>Актуально</span>
+            </div>
+
+            <div class="entry">
+              <div class="entry-main">
+                <a href="https://t.me/GiftRoadStars_bot" target="_blank" rel="noopener noreferrer" data-warning="Этот магазин по продаже звёзд замечен в мошеннических схемах, или принимал участие в обмане других людей.">@GiftRoadStars_bot</a>
+                <svg class="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"></path></svg>
+              </div>
+              <span class="status-tag active"><span class="status-dot"></span>Актуально</span>
+            </div>
+          </div>
+        </section>
+
         <!-- Каналы -->
         <section class="card channels">
           <div class="card-heading">
@@ -486,7 +668,10 @@
 
       <aside class="resource">
         <p>Ресурс реестра и канал автора реестра</p>
-        <a href="https://t.me/polina_1_37_scammer" target="_blank" rel="noopener noreferrer">https://t.me/polina_1_37_scammer</a>
+        <button type="button" class="resource-btn" id="openModalBtn">
+          Вступить в Telegram-канал
+          <svg class="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"></path></svg>
+        </button>
       </aside>
 
       <footer>
@@ -495,6 +680,63 @@
       </footer>
     </div>
   </main>
+
+  <!-- Модальное окно для авторского канала -->
+  <div class="modal-overlay" id="disclaimerModal">
+    <div class="modal-card">
+      <div class="modal-body">
+        <h3>⚠️ О КАНАЛЕ</h3>
+        Этот канал создан для разоблачения мошенника или сети мошенников в Telegram, которые организуют фейковые «розыгрыши», где каждый участник якобы выигрывает определённое место или приз.
+        Независимо от того, какую «победу» вы получили, указанный в подобных розыгрышах бот является мошенническим. Его цель - создать видимость выигрыша и впоследствии заставить участника добровольно отправить мошенникам звёзды.
+        ❗️ Автор канала не несёт ответственности за действия указанных лиц и не возвращает потраченные деньги, звёзды или другие валюты в случае обмана.
+
+        <h3>🔴 Схема мошенничества</h3>
+        Человек участвует в конкурсе через фейкового бота.
+        Через некоторое время ему в личные сообщения приходит сообщение о «выигрышном билете».
+        В канале, где проходил розыгрыш, мошенники сообщают, что забрать приз необходимо в течение определённого времени ( очень часто - суток ).
+        По истечении этого времени «приз» исчезает. На самом деле никакого приза не существовало.
+        После этого мошенники заявляют, что их личные сообщения якобы «заспамили» угрозами или большим количеством сообщений.
+        Затем они «включают» платные сообщения в личных сообщениях.
+        Из-за ограниченного времени, азарта и желания получить «приз» участник отправляет платное сообщение, тем самым добровольно передавая мошенникам звёзды.
+        ⚠️ Не отправляйте звёзды и деньги неизвестным лицам ради получения несуществующего выигрыша.
+
+        <h3>⚖️ Дисклеймер</h3>
+        ❗️ Автор канала не одобряет действия, описанные в публикациях, и осуждает мошенничество и обман пользователей.
+        Все ссылки на ресурсы, которые могут нарушать правила Telegram или платформы, публикуются исключительно в целях предупреждения пользователей и информирования о потенциально мошеннических сообществах, каналах и ботах.
+        Вся информация на канале публикуется исключительно для ознакомления, анализа и изучения.
+        Автор не несёт ответственности за действия пользователей и последствия посещения или использования ресурсов, опубликованных на данном канале.
+      </div>
+      <div class="modal-footer">
+        <label class="modal-agree-label">
+          <input type="checkbox" id="modalAgreeCheckbox">
+          Я согласен с условиями дисклеймера
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="closeModalBtn">Отмена</button>
+          <a href="https://t.me/polina_1_37_scammer" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="confirmRedirectBtn">Зайти</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно предупреждения при открытии ссылок реестра -->
+  <div class="modal-overlay" id="entryWarningModal">
+    <div class="modal-card">
+      <div class="modal-body" id="entryModalText">
+        <!-- Динамический текст предупреждения -->
+      </div>
+      <div class="modal-footer">
+        <label class="modal-agree-label">
+          <input type="checkbox" id="entryAgreeCheckbox">
+          Я осознаю риски и хочу перейти к ресурсу
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="entryCancelBtn">Отмена</button>
+          <button type="button" class="btn btn-primary" id="entryConfirmBtn">Перейти</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     const LAST_UPDATED = "2026-10-10";
@@ -506,6 +748,90 @@
         day: "2-digit", month: "2-digit", year: "numeric"
       }).format(parsedDate);
     }
+
+    // Модальное окно для авторского канала
+    const modal = document.getElementById("disclaimerModal");
+    const openBtn = document.getElementById("openModalBtn");
+    const closeBtn = document.getElementById("closeModalBtn");
+    const checkbox = document.getElementById("modalAgreeCheckbox");
+    const confirmBtn = document.getElementById("confirmRedirectBtn");
+
+    openBtn.addEventListener("click", () => {
+      modal.classList.add("active");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      modal.classList.remove("active");
+      checkbox.checked = false;
+      confirmBtn.classList.remove("enabled");
+    });
+
+    checkbox.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        confirmBtn.classList.add("enabled");
+      } else {
+        confirmBtn.classList.remove("enabled");
+      }
+    });
+
+    confirmBtn.addEventListener("click", (e) => {
+      if (!checkbox.checked) {
+        e.preventDefault();
+      } else {
+        modal.classList.remove("active");
+      }
+    });
+
+    // Модальное окно предупреждения для ссылок реестра
+    const entryModal = document.getElementById("entryWarningModal");
+    const entryModalText = document.getElementById("entryModalText");
+    const entryCheckbox = document.getElementById("entryAgreeCheckbox");
+    const entryConfirmBtn = document.getElementById("entryConfirmBtn");
+    const entryCancelBtn = document.getElementById("entryCancelBtn");
+    let targetUrl = "";
+
+    document.querySelectorAll(".entries a").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        targetUrl = link.href;
+        const customWarning = link.getAttribute("data-warning");
+        
+        if (customWarning) {
+          entryModalText.innerHTML = `<h3>⚠️ ВНИМАНИЕ: МАГАЗИН ЗВЁЗД</h3>${customWarning}<br><br>❗️ Переходя по этой ссылке, вы действуете на свой страх и риск. Автор реестра настоятельно не рекомендует отправлять деньги или звёзды на данном ресурсе.`;
+        } else {
+          entryModalText.innerHTML = `<h3>⚠️ ВНИМАНИЕ: ПОДОЗРИТЕЛЬНЫЙ РЕСУРС</h3>Этот ресурс внесён в реестр как потенциально связанный с мошенническими розыгрышами и выманиванием Telegram Stars / средств.<br><br>❗️ Переходя по этой ссылке, вы действуете на свой страх и риск. Автор реестра настоятельно не рекомендует отправлять деньги, звёзды или личные данные на данном ресурсе.`;
+        }
+
+        entryModal.classList.add("active");
+        entryCheckbox.checked = false;
+        entryConfirmBtn.classList.remove("enabled");
+      });
+    });
+
+    entryCancelBtn.addEventListener("click", () => {
+      entryModal.classList.remove("active");
+      targetUrl = "";
+      entryCheckbox.checked = false;
+      entryConfirmBtn.classList.remove("enabled");
+    });
+
+    entryCheckbox.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        entryConfirmBtn.classList.add("enabled");
+      } else {
+        entryConfirmBtn.classList.remove("enabled");
+      }
+    });
+
+    entryConfirmBtn.addEventListener("click", () => {
+      if (entryCheckbox.checked && targetUrl) {
+        window.open(targetUrl, "_blank", "noopener,noreferrer");
+        entryModal.classList.remove("active");
+        targetUrl = "";
+        entryCheckbox.checked = false;
+        entryConfirmBtn.classList.remove("enabled");
+      }
+    });
   </script>
 </body>
 </html>
