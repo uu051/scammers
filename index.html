@@ -194,6 +194,36 @@
   </style>
 </head>
 <body>
+
+<!-- Предупреждение при входе на сайт -->
+<div class="modal-overlay active" id="siteEntryModal">
+  <div class="modal-card">
+    <div class="modal-body">
+      <h3>⚠️ ПРЕДУПРЕЖДЕНИЕ</h3>
+
+      Заходя на сайт, вы подтверждаете, что ознакомились с размещёнными здесь предупреждениями и дисклеймерами.
+
+      Сайт создан исключительно для предотвращения мошенничества на платформе Telegram. Материалы не пропагандируют мошенничество или подобные способы заработка и опубликованы в информационных целях.
+
+      Информация в реестре может быть неполной или устаревшей. Самостоятельно проверяйте сведения перед тем, как делать выводы.
+    </div>
+
+    <div class="modal-footer">
+      <label class="modal-agree-label">
+        <input type="checkbox" id="siteEntryAgreeCheckbox">
+        Я ознакомился(лась) с предупреждением
+      </label>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary"
+                id="siteEntryContinueBtn">
+          Продолжить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <main class="app">
     <div class="container">
       <div class="eyebrow"><span class="dot"></span> Информационный реестр</div>
@@ -499,6 +529,24 @@
 
 
 <script>
+
+
+const siteEntryModal = document.getElementById("siteEntryModal");
+const siteEntryCheckbox = document.getElementById("siteEntryAgreeCheckbox");
+const siteEntryContinueBtn = document.getElementById("siteEntryContinueBtn");
+
+siteEntryCheckbox.addEventListener("change", () => {
+  siteEntryContinueBtn.classList.toggle(
+    "enabled",
+    siteEntryCheckbox.checked
+  );
+});
+
+siteEntryContinueBtn.addEventListener("click", () => {
+  if (!siteEntryCheckbox.checked) return;
+  siteEntryModal.classList.remove("active");
+});
+
     // Модальное окно для авторского канала
     const modal = document.getElementById("disclaimerModal");
     const openBtn = document.getElementById("openModalBtn");
