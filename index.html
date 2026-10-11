@@ -440,9 +440,9 @@
             </div>
 
             <!-- Запись с пометкой Неактуально -->
-            <div class="entry has-notice">
+            <div class="entry">
               <div class="entry-main">
-                <a href="https://http.dog/404.jpg" target="_blank" rel="noopener noreferrer">t.me/polinamnd</a>
+                <a href="https://http.dog/404.jpg" target="_blank" rel="noopener noreferrer">t.me/polinamd</a>
                 <svg class="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"></path></svg>
               </div>
               <span class="status-tag inactive"><span class="status-dot"></span>Неактуально</span>
@@ -563,13 +563,9 @@
         <!-- Динамический текст предупреждения -->
       </div>
       <div class="modal-footer">
-        <label class="modal-agree-label">
-          <input type="checkbox" id="entryAgreeCheckbox">
-          Я осознаю риски и хочу перейти к ресурсу
-        </label>
         <div class="modal-actions">
           <button type="button" class="btn btn-secondary" id="entryCancelBtn">Отмена</button>
-          <button type="button" class="btn btn-primary" id="entryConfirmBtn">Перейти</button>
+          <button type="button" class="btn btn-primary enabled" id="entryConfirmBtn">Перейти</button>
         </div>
       </div>
     </div>
@@ -631,7 +627,6 @@ siteEntryContinueBtn.addEventListener("click", () => {
     // Модальное окно предупреждения для ссылок реестра
     const entryModal = document.getElementById("entryWarningModal");
     const entryModalText = document.getElementById("entryModalText");
-    const entryCheckbox = document.getElementById("entryAgreeCheckbox");
     const entryConfirmBtn = document.getElementById("entryConfirmBtn");
     const entryCancelBtn = document.getElementById("entryCancelBtn");
     let targetUrl = "";
@@ -649,33 +644,20 @@ siteEntryContinueBtn.addEventListener("click", () => {
         }
 
         entryModal.classList.add("active");
-        entryCheckbox.checked = false;
-        entryConfirmBtn.classList.remove("enabled");
+        entryConfirmBtn.classList.add("enabled");
       });
     });
 
     entryCancelBtn.addEventListener("click", () => {
       entryModal.classList.remove("active");
       targetUrl = "";
-      entryCheckbox.checked = false;
-      entryConfirmBtn.classList.remove("enabled");
-    });
-
-    entryCheckbox.addEventListener("change", (e) => {
-      if (e.target.checked) {
-        entryConfirmBtn.classList.add("enabled");
-      } else {
-        entryConfirmBtn.classList.remove("enabled");
-      }
     });
 
     entryConfirmBtn.addEventListener("click", () => {
-      if (entryCheckbox.checked && targetUrl) {
+      if (targetUrl) {
         window.open(targetUrl, "_blank", "noopener,noreferrer");
         entryModal.classList.remove("active");
         targetUrl = "";
-        entryCheckbox.checked = false;
-        entryConfirmBtn.classList.remove("enabled");
       }
     });
 
