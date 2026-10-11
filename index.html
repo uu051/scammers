@@ -171,17 +171,6 @@
     footer p { margin: 4px 0; }
     .disclaimer { font-size: .77rem; color: #737984; }
 
-    .report-form { display: grid; gap: 14px; margin-top: 14px; }
-    .report-form label { display: grid; gap: 7px; color: #d9dce2; font-size: .84rem; font-weight: 600; }
-    .report-form input, .report-form textarea {
-      width: 100%; padding: 11px 12px; color: var(--text); background: #0b0c0f;
-      border: 1px solid #353841; border-radius: 9px; outline: none;
-    }
-    .report-form input:focus, .report-form textarea:focus { border-color: #858b97; }
-    .report-form textarea { min-height: 100px; resize: vertical; }
-    .captcha-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
-    .captcha-question { padding: 9px 12px; background: #1a1c21; border: 1px solid #30333b; border-radius: 9px; color: #f2f3f5; }
-    .report-note { color: var(--text-muted); font-size: .78rem; margin: 0; }
 
     @media (min-width: 768px) {
       .grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -479,27 +468,11 @@
 
       <section class="resource" id="reportResource">
         <p>Сообщить о новом подозрительном ресурсе</p>
-        <p class="report-note">Нашли подозрительный бот, канал, аккаунт или сайт? Отправьте ссылку и краткое описание для проверки.</p>
-        <form class="report-form" id="reportForm">
-          <label for="reportLink">Ссылка на ресурс *
-            <input id="reportLink" name="reportLink" type="url" placeholder="https://t.me/..." required>
-          </label>
-          <label for="reportDetails">Почему ресурс кажется подозрительным? *
-            <textarea id="reportDetails" name="reportDetails" placeholder="Кратко опишите ситуацию (без паролей и личных данных)." required maxlength="1500"></textarea>
-          </label>
-          <label for="reportContact">Ваша почта (необязательно)
-            <input id="reportContact" name="reportContact" type="email" placeholder="you@example.com">
-          </label>
-          <label>Проверка от ботов: решите пример *
-            <div class="captcha-row">
-              <span class="captcha-question" id="captchaQuestion">3 + 4 = ?</span>
-              <input id="captchaAnswer" type="number" inputmode="numeric" placeholder="Ответ" required style="max-width: 130px">
-            </div>
-          </label>
-          <button class="resource-btn" id="reportSubmitBtn" type="submit">Отправить сообщение</button>
-          <p class="report-note">Сообщение будет отправлено напрямую через почтовый сервис — почтовое приложение открывать не нужно.</p>
-          <p class="report-note" id="reportStatus" role="status"></p>
-        </form>
+        <p class="disclaimer">Нашли подозрительный бот, канал, аккаунт или сайт? Напишите об этом в Telegram-бота.</p>
+        <a class="resource-btn" href="https://t.me/askifybot?start=f9xh94k" target="_blank" rel="noopener noreferrer">
+          Сообщить через Telegram-бота
+          <svg class="external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"></path><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"></path></svg>
+        </a>
       </section>
 
       <footer>
@@ -670,69 +643,6 @@ siteEntryContinueBtn.addEventListener("click", () => {
       }
     });
 
-    // Форма отправляется через FormSubmit без открытия почтового приложения.
-    const reportEmail = "w-me-mail-0@proton.me";
-    const reportForm = document.getElementById("reportForm");
-    const captchaQuestion = document.getElementById("captchaQuestion");
-    const captchaAnswer = document.getElementById("captchaAnswer");
-    const reportStatus = document.getElementById("reportStatus");
-    const reportSubmitBtn = document.getElementById("reportSubmitBtn");
-    let captchaExpected = 0;
-
-    function refreshCaptcha() {
-      const a = Math.floor(Math.random() * 8) + 2;
-      const b = Math.floor(Math.random() * 8) + 1;
-      captchaExpected = a + b;
-      captchaQuestion.textContent = `${a} + ${b} = ?`;
-      captchaAnswer.value = "";
-    }
-    refreshCaptcha();
-
-    reportForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (Number(captchaAnswer.value) !== captchaExpected) {
-        reportStatus.textContent = "Неверный ответ на пример. Попробуйте ещё раз.";
-        refreshCaptcha();
-        return;
-      }
-
-      const link = document.getElementById("reportLink").value.trim();
-      const details = document.getElementById("reportDetails").value.trim();
-      const contact = document.getElementById("reportContact").value.trim();
-      reportSubmitBtn.disabled = true;
-      reportSubmitBtn.style.opacity = "0.65";
-      reportStatus.textContent = "Отправляем сообщение…";
-
-      try {
-        const response = await fetch(`https://formsubmit.co/ajax/${reportEmail}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            _subject: "Сообщение о новом подозрительном ресурсе",
-            _captcha: "false",
-            _template: "table",
-            "Ссылка на ресурс": link,
-            "Описание": details,
-            "Почта отправителя": contact || "не указана"
-          })
-        });
-        const result = await response.json();
-        if (!response.ok || result.success === "false" || result.success === false) {
-          throw new Error(result.message || "Не удалось отправить сообщение.");
-        }
-        reportStatus.textContent = "Сообщение отправлено. Спасибо за информацию!";
-        reportForm.reset();
-        refreshCaptcha();
-      } catch (error) {
-        reportStatus.textContent = "Не удалось отправить сообщение. Попробуйте позже или напишите на w-me-mail-0@proton.me.";
-      } finally {
-        reportSubmitBtn.disabled = false;
-        reportSubmitBtn.style.opacity = "1";
-      }
-    });
 
   </script>
 </body>
